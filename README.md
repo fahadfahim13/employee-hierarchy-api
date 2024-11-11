@@ -115,3 +115,37 @@ The e2e tests will:
 - Clean up test data after completion
 
 Note: The tests use a separate database to avoid interfering with development data.
+
+
+## Performance Optimization with Caching
+
+To improve API performance and reduce database load, we can implement caching strategies using Redis:
+
+### Setting Up Redis Caching
+
+1. Install required dependencies:
+
+```bash
+npm install redis @nestjs/cache-manager cache-manager
+``` 
+
+2. Configure caching in `src/app.module.ts`:
+
+```typescript
+@Module({
+  imports: [CacheModule.register({
+    isGlobal: true,
+  })],
+})
+```   
+
+3. Use caching in services or controllers:
+
+```typescript
+@Injectable()
+export class EmployeeService {
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+}
+```
+
+4. Test caching by running the application and making requests to cached endpoints.
